@@ -1,6 +1,6 @@
 function loadCards(data) {
   data.forEach(item => {
-    const manifest_url = `https://raw.githubusercontent.com/agungrbudiman/ios-apps/refs/heads/manifest/manifest/${item.device}_${item.app_id}.plist`;
+    const manifest_url = `${window.location.origin}/manifest/${item.device}_${item.app_id}.plist`;
     const card = document.createElement("div");
     card.className = "card";
     card.setAttribute("device", item.device);
