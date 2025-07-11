@@ -16,29 +16,29 @@
 	{
 		"app_name": "Apollo",
 		"app_id": "com.christianselig.Apollo",
+		"img_url": "/images/apollo.webp",
 		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/com.christianselig.Apollo.ipa",
-		"img_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/a1/d8/a6/a1d8a63c-1534-2a04-b0fe-3de6e9c800b9/AppIcon-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-85-220.png/460x0w.webp",
 		"device": "401E"
 	},
 	{
 		"app_name": "Youtube",
 		"app_id": "com.google.ios.youtube",
+		"img_url": "/images/youtube.webp",
 		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/com.google.ios.youtube.ipa",
-		"img_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/b5/30/98/b5309846-02e7-a3bc-e412-64ca57ce2f41/logo_youtube_2024_q4_color-0-1x_U007emarketing-0-0-0-7-0-0-0-85-220-0.png/460x0w.webp",
 		"device": "401E"
 	},
 	{
 		"app_name": "Spotify",
 		"app_id": "com.spotify.clients",
+		"img_url": "/images/spotify.webp",
 		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/com.spotify.clients.ipa",
-		"img_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/77/81/4b/77814b75-62de-c9ba-750c-89aa003aee92/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/460x0w.webp",
 		"device": "401E"
 	},
 	{
-		"app_name": "TDS Video",
+		"app_name": "TDS Carplay",
 		"app_id": "net.thomasdye.TDS-Video4",
+		"img_url": "/images/tds_carplay.webp",
 		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/net.thomasdye.TDS-Video4.ipa",
-		"img_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f4/52/3e/f4523eba-e056-bf9c-7c89-69444a2bb0cf/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/460x0w.webp",
 		"device": "401E"
 	},
 	{
@@ -59,14 +59,14 @@
 		"app_name": "Youtube",
 		"app_id": "com.google.ios.youtube",
 		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v2/com.google.ios.youtube.ipa",
-		"img_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/b5/30/98/b5309846-02e7-a3bc-e412-64ca57ce2f41/logo_youtube_2024_q4_color-0-1x_U007emarketing-0-0-0-7-0-0-0-85-220-0.png/460x0w.webp",
+		"img_url": "/images/youtube.webp",
 		"device": "001C"
 	},
 	{
 		"app_name": "Spotify",
 		"app_id": "com.spotify.clients",
 		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v2/com.spotify.clients.ipa",
-		"img_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/77/81/4b/77814b75-62de-c9ba-750c-89aa003aee92/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/460x0w.webp",
+		"img_url": "/images/spotify.webp",
 		"device": "001C"
 	}
 ]

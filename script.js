@@ -1,3 +1,15 @@
+document.getElementById('filters').addEventListener('change', filters);
+const container = document.getElementById('container');
+
+main();
+
+async function main() {
+  const response = await fetch('data.json');
+  const data = await response.json();
+  loadCards(data);
+  filters();
+}
+
 function loadCards(data) {
   data.forEach(item => {
     const manifest_url = `${window.location.origin}/manifest/${item.device}_${item.app_id}.plist`;
@@ -14,17 +26,8 @@ function loadCards(data) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
-  const response = await fetch('data.json');
-  const data = await response.json();
-  loadCards(data);
-  filters();
-});
-
-document.getElementById('filters').addEventListener('change', filters);
-
-function filters() {
-  const selected = this.value ?? document.getElementById('filters').value;
+function filters(event) {
+  const selected = event?.target?.value ?? document.getElementById('filters').value;
   const cards = document.querySelectorAll('.card');
   cards.forEach(card => {
     if (card.getAttribute('device') === selected) {
