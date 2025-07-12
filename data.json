@@ -14,7 +14,8 @@
 	{
 		"app_name": "Apollo",
 		"app_id": "com.christianselig.Apollo",
-		"img_url": "/images/apollo.webp"
+		"img_url": "/images/apollo.webp",
+		"ipa_url": "https://github.com/Balackburn/Apollo/releases/download/v1.15.11_1.2.3/Apollo-1.15.11_ImprovedCustomApi-1.2.3.ipa"
 	},
 	{
 		"app_name": "Youtube",
@@ -24,11 +25,13 @@
 	{
 		"app_name": "Spotify",
 		"app_id": "com.spotify.clients",
-		"img_url": "/images/spotify.webp"
+		"img_url": "/images/spotify.webp",
+		"ipa_url": "https://github.com/whoeevee/EeveeSpotify/releases/download/swift6.0.2/EeveeSpotify-6.0.2-9.0.58.ipa"
 	},
 	{
 		"app_name": "TDS Carplay",
 		"app_id": "net.thomasdye.TDS-Video4",
-		"img_url": "/images/tds_carplay.webp"
+		"img_url": "/images/tds_carplay.webp",
+		"ipa_url": "https://github.com/thomasdye12/TDS-Carplay/releases/download/1.2.5/TDS.Video1.5.ipa"
 	}
 ]
