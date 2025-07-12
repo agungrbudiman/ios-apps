@@ -17,7 +17,7 @@ function cardClick(event) {
   if (event.target.matches('.install-btn')) {
     event.preventDefault();
     const device_id = document.getElementById('filters').value;
-    const manifest_url = `${window.location.origin}/manifest/${device_id}_${this.id}.plist`;
+    const manifest_url = `${window.location.origin}/manifest/${device_id}/${this.id}.plist`;
     window.location.href = `itms-services://?action=download-manifest&url=${encodeURIComponent(manifest_url)}`;
   }
 }

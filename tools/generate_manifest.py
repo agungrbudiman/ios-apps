@@ -3,11 +3,12 @@ import json
 
 script_dir = Path(__file__).resolve().parent
 data_path = script_dir.parent / 'data.json'
-output_dir = script_dir.parent / 'manifest'
 app_url_prefix = "https://github.com/agungrbudiman/ios-apps/releases/download/signed"
 devices = ["401E", "001C"]
 
-output_dir.mkdir(parents=True, exist_ok=True)
+for device in devices:
+    output_dir = script_dir.parent / 'manifest' / device
+    output_dir.mkdir(parents=True, exist_ok=True)
 
 # Load JSON data from external file
 with data_path.open('r', encoding='utf-8') as f:
@@ -56,8 +57,8 @@ for app in apps:
         )
         
         # Save to a file
-        file_name = f"{device}_{app['app_id']}.plist"
-        output_file = output_dir / file_name
+        file_name = f"{app['app_id']}.plist"
+        output_file = script_dir.parent / 'manifest' / device / file_name
         output_file.write_text(plist_content, encoding='utf-8')
         
         print(f"Generated: {file_name}")
