@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Restore zsign from cache
       id: zsign-cache
       uses: actions/cache@v4
@@ -33,9 +36,6 @@ jobs:
     - name: Install zsign
       run: |
         sudo cp zsign/bin/zsign /usr/local/bin
-
-    - name: Checkout repository
-      uses: actions/checkout@v4
 
     - name: Sign IPA
       run: ./tools/sign_ipa.sh
