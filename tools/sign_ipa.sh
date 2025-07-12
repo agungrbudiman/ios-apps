@@ -7,9 +7,11 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 data_path="$script_dir/../data.json"
 work_path="$script_dir/../ipasign"
 
-if [[ -z "$GITHUB_ACTIONS" ]]; then
-    source .secrets
+if [[ ! -z "$GITHUB_ACTIONS" ]]; then
+    echo "$SECRETS_BASE64" > $script_dir/../.secrets
 fi
+
+source .secrets
 
 # Prepare workdir
 for device in "${devices[@]}"; do
@@ -41,11 +43,12 @@ done
 
 for ipa in $work_path/unsigned/*.ipa; do
     for cert in $work_path/certs/*; do
+        pw="P12_PASSWORD_$(basename $cert)"
         zsign -k $cert/cert.p12 \
             -m $cert/prov.mobileprovision \
             -b $(basename "$ipa" .ipa) \
             -o $work_path/signed/$(basename $cert)_$(basename "$ipa") \
-            -p "$P12_PASSWORD" \
+            -p "${!pw}" \
             -z 6 \
             $ipa
     done
