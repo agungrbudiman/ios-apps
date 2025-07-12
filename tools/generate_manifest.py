@@ -61,4 +61,4 @@ for app in apps:
         output_file = script_dir.parent / 'manifest' / device / file_name
         output_file.write_text(plist_content, encoding='utf-8')
         
-        print(f"Generated: {file_name}")
+        print(f"Generated: {device}/{file_name}")
