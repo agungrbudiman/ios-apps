@@ -4,6 +4,8 @@ import json
 script_dir = Path(__file__).resolve().parent
 data_path = script_dir.parent / 'data.json'
 output_dir = script_dir.parent / 'manifest'
+app_url_prefix = "https://github.com/agungrbudiman/ios-apps/releases/download/signed"
+devices = ["401E", "001C"]
 
 output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -46,15 +48,16 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 
 # Generate plist for each app
 for app in apps:
-    plist_content = template.format(
-        app_name=app["app_name"],
-        app_id=app["app_id"],
-        app_url=app["app_url"]
-    )
-    
-    # Save to a file
-    file_name = f"{app['device']}_{app['app_id']}.plist"
-    output_file = output_dir / file_name
-    output_file.write_text(plist_content, encoding='utf-8')
-    
-    print(f"Generated: {file_name}")
+    for device in devices:
+        plist_content = template.format(
+            app_name=app['app_name'],
+            app_id=app['app_id'],
+            app_url=f"{app_url_prefix}/{device}_{app['app_id']}.ipa"
+        )
+        
+        # Save to a file
+        file_name = f"{device}_{app['app_id']}.plist"
+        output_file = output_dir / file_name
+        output_file.write_text(plist_content, encoding='utf-8')
+        
+        print(f"Generated: {file_name}")

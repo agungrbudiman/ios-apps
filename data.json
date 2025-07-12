@@ -2,71 +2,31 @@
 	{
 		"app_name": "Feather",
 		"app_id": "thewonderofyou.Feather",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/thewonderofyou.Feather.ipa",
-		"img_url": "/images/feather.png",
-		"device": "401E"
+		"img_url": "/images/feather.png"
 	},
 	{
 		"app_name": "Flappy Bird",
 		"app_id": "org.brandonplank.flappybird",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/org.brandonplank.flappybird.ipa",
-		"img_url": "/images/flappybird.png",
-		"device": "401E"
+		"img_url": "/images/flappybird.png"
 	},
 	{
 		"app_name": "Apollo",
 		"app_id": "com.christianselig.Apollo",
-		"img_url": "/images/apollo.webp",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/com.christianselig.Apollo.ipa",
-		"device": "401E"
+		"img_url": "/images/apollo.webp"
 	},
 	{
 		"app_name": "Youtube",
 		"app_id": "com.google.ios.youtube",
-		"img_url": "/images/youtube.webp",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/com.google.ios.youtube.ipa",
-		"device": "401E"
+		"img_url": "/images/youtube.webp"
 	},
 	{
 		"app_name": "Spotify",
 		"app_id": "com.spotify.clients",
-		"img_url": "/images/spotify.webp",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/com.spotify.clients.ipa",
-		"device": "401E"
+		"img_url": "/images/spotify.webp"
 	},
 	{
 		"app_name": "TDS Carplay",
 		"app_id": "net.thomasdye.TDS-Video4",
-		"img_url": "/images/tds_carplay.webp",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v1/net.thomasdye.TDS-Video4.ipa",
-		"device": "401E"
-	},
-	{
-		"app_name": "Feather",
-		"app_id": "thewonderofyou.Feather",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v2/thewonderofyou.Feather.ipa",
-		"img_url": "/images/feather.png",
-		"device": "001C"
-	},
-	{
-		"app_name": "Flappy Bird",
-		"app_id": "org.brandonplank.flappybird",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v2/org.brandonplank.flappybird.ipa",
-		"img_url": "/images/flappybird.png",
-		"device": "001C"
-	},
-	{
-		"app_name": "Youtube",
-		"app_id": "com.google.ios.youtube",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v2/com.google.ios.youtube.ipa",
-		"img_url": "/images/youtube.webp",
-		"device": "001C"
-	},
-	{
-		"app_name": "Spotify",
-		"app_id": "com.spotify.clients",
-		"app_url": "https://github.com/agungrbudiman/ios-apps/releases/download/v2/com.spotify.clients.ipa",
-		"img_url": "/images/spotify.webp",
-		"device": "001C"
+		"img_url": "/images/tds_carplay.webp"
 	}
 ]
