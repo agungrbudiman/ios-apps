@@ -1,19 +1,30 @@
-document.getElementById('filters').addEventListener('change', filters);
-document.getElementById('container').addEventListener('click', cardClick);
-
 const container = document.getElementById('container');
+const filter = document.getElementById('filters');
+const devices = [{"id": "401E", "name": "iPhone 13"}, {"id": "001C", "name": "iPhone 15"}];
+
 let device_id = document.getElementById('filters').value;
+
+filter.addEventListener('change', filters);
 
 main();
 
 async function main() {
+  populateDevice();
   const response = await fetch('data.json');
   const data = await response.json();
   loadCards(data);
 }
 
+function populateDevice() {
+  devices.forEach(device => {
+    const option = document.createElement('option');
+    option.value = device.id;
+    option.text = device.name;
+    filter.add(option);
+  });
+}
+
 function cardClick(event) {
-  event.stopPropagation();
   if (event.target.matches('.install-btn')) {
     event.preventDefault();
     const device_id = document.getElementById('filters').value;
