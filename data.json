@@ -2,12 +2,14 @@
 	{
 		"app_name": "Feather",
 		"app_id": "thewonderofyou.Feather",
-		"img_url": "/images/feather.png"
+		"img_url": "/images/feather.png",
+		"ipa_url": "https://github.com/khcrysalis/Feather/releases/download/v2.2.2/Feather.ipa"
 	},
 	{
 		"app_name": "Flappy Bird",
 		"app_id": "org.brandonplank.flappybird",
-		"img_url": "/images/flappybird.png"
+		"img_url": "/images/flappybird.png",
+		"ipa_url": "https://github.com/brandonplank/flappybird/releases/download/4.3/org.brandonplank.flappybird.ipa"
 	},
 	{
 		"app_name": "Apollo",

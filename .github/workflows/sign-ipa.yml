@@ -1,0 +1,55 @@
+name: Sign IPA with zsign
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sign-ipa:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Restore zsign from cache
+      id: zsign-cache
+      uses: actions/cache@v4
+      with:
+        path: zsign/bin/zsign
+        key: zsign-cache-v0.7
+
+    - name: Install dependencies (if cached)
+      if: steps.zsign-cache.outputs.cache-hit == 'true'
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y libminizip-dev jq
+
+    - name: Build zsign (if not cached)
+      if: steps.zsign-cache.outputs.cache-hit != 'true'
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y git g++ pkg-config libssl-dev libminizip-dev jq
+        git clone https://github.com/zhlynn/zsign.git
+        cd zsign/build/linux
+        make clean && make
+
+    - name: Install zsign
+      run: |
+        sudo cp zsign/bin/zsign /usr/local/bin
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Sign IPA
+      run: ./tools/sign_ipa.sh
+      env:
+        P12_BASE64_401E: ${{ secrets.P12_BASE64_401E }}
+        MOBILEPROVISION_BASE64_401E: ${{ secrets.MOBILEPROVISION_BASE64_401E }}
+        P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+
+    - name: Upload to 'signed' release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: signed
+        name: "Signed Release"
+        files: ipasign/signed/*.ipa
+        fail_on_unmatched_files: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
