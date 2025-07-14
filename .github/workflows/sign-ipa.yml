@@ -6,6 +6,9 @@ on:
         bundle_id:
           description: 'Specific bundle id to be signed (optional)'
           required: false
+  push:
+    paths:
+      - data.json
 
 jobs:
   sign-ipa:
