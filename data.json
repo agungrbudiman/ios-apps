@@ -37,6 +37,18 @@
 			"ipa_url": "https://github.com/whoeevee/EeveeSpotify/releases/download/swift6.0.2/EeveeSpotify-6.0.2-9.0.58.ipa"
 		},
 		{
+			"app_name": "X",
+			"app_id": "com.atebits.Tweetie2",
+			"img_url": "/images/x.webp",
+			"ipa_url": "https://github.com/BandarHL/BHTwitter/releases/download/4.4/BHTwitter-sideloaded.ipa"
+		},
+		{
+			"app_name": "Instagram",
+			"app_id": "com.burbn.instagram",
+			"img_url": "/images/instagram.webp",
+			"ipa_url": "https://github.com/agungrbudiman/SCInsta/releases/download/v0.7.1/SCInsta_sideloaded_v0.7.1.ipa"
+		},
+		{
 			"app_name": "TDS Carplay",
 			"app_id": "net.thomasdye.TDS-Video4",
 			"img_url": "/images/tds_carplay.webp",
