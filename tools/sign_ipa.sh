@@ -15,6 +15,10 @@ devices_count=$(jq '.devices | length' "$data_path")
 
 # Prepare workdir
 for (( i=0; i<devices_count; i++ )); do
+    enabled=$(jq -r ".devices[$i].enabled" "$data_path")
+    if [ "$enabled" = "false" ]; then
+        continue
+    fi
     device_id=$(jq -r ".devices[$i].id" "$data_path")
     mkdir -p "$work_path/certs/$device_id"
     p12="P12_BASE64_$device_id"

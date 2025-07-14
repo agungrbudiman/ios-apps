@@ -16,10 +16,12 @@ async function main() {
 
 function loadDevice(data) {
   data.devices.forEach(device => {
-    const option = document.createElement('option');
-    option.value = device.id;
-    option.text = device.name;
-    filter.add(option);
+    if (device.enabled) {
+      const option = document.createElement('option');
+      option.value = device.id;
+      option.text = device.name;
+      filter.add(option);
+    }
   });
 }
 

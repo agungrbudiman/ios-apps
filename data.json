@@ -39,11 +39,13 @@
 	"devices": [
 		{
 			"id": "401E",
-			"name": "iPhone 13"
+			"name": "iPhone 13",
+			"enabled": true
 		},
 		{
 			"id": "001C",
-			"name": "iPhone 15"
+			"name": "iPhone 15",
+			"enabled": false
 		}
 	],
 	"base_signed_url": "https://github.com/agungrbudiman/ios-apps/releases/download/signed"

@@ -10,9 +10,13 @@ app_url_prefix=$(jq -r '.base_signed_url' $data_path)
 devices_count=$(jq '.devices | length' "$data_path")
 
 # Create output directories
+rm -rf $manifest_dir
 for (( i=0; i<devices_count; i++ )); do
     device_id=$(jq -r ".devices[$i].id" "$data_path")
-    mkdir -p "$manifest_dir/$device_id"
+    enabled=$(jq -r ".devices[$i].enabled" "$data_path")
+    if [ "$enabled" = "true" ]; then
+        mkdir -p "$manifest_dir/$device_id"
+    fi
 done
 
 apps_count=$(jq '.apps | length' "$data_path")
@@ -24,6 +28,10 @@ for (( i=0; i<apps_count; i++ )); do
 
   for (( y=0; y<devices_count; y++ )); do
     device_id=$(jq -r ".devices[$y].id" "$data_path")
+    enabled=$(jq -r ".devices[$y].enabled" "$data_path")
+    if [ "$enabled" = "false" ]; then
+        continue
+    fi
     app_url="$app_url_prefix/$device_id"_"$app_id.ipa"
     
     plist_content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
