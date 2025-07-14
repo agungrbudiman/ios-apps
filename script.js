@@ -1,9 +1,9 @@
-const container = document.getElementById('container');
-const filter = document.getElementById('filters');
+const appbox = document.getElementById('appbox');
+const devicebox = document.getElementById('devicebox');
 
 let device_id;
 
-filter.addEventListener('change', event => device_id = this.value );
+devicebox.addEventListener('change', event => device_id = this.value );
 
 main();
 
@@ -20,15 +20,14 @@ function loadDevice(data) {
       const option = document.createElement('option');
       option.value = device.id;
       option.text = device.name;
-      filter.add(option);
+      devicebox.add(option);
     }
   });
 }
 
 function cardClick(event) {
   if (event.target.matches('.install-btn')) {
-    event.preventDefault();
-    const device_id = document.getElementById('filters').value;
+    const device_id = document.getElementById('devicebox').value;
     const manifest_url = `${window.location.origin}/manifest/${device_id}/${this.id}.plist`;
     window.location.href = `itms-services://?action=download-manifest&url=${encodeURIComponent(manifest_url)}`;
   }
@@ -45,8 +44,8 @@ function loadCards(data) {
         <img src="${item.img_url}"/>
         <h3>${item.app_name}</h3>
         <p>${item.app_id}</p>
-        <a class="install-btn">Install</div>
+        <div class="install-btn">Install</div>
     `;
-    container.appendChild(card);
+    appbox.appendChild(card);
   });
 }
