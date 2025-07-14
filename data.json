@@ -21,7 +21,14 @@
 		{
 			"app_name": "Youtube",
 			"app_id": "com.google.ios.youtube",
-			"img_url": "/images/youtube.webp"
+			"img_url": "/images/youtube.webp",
+			"ipa_url": "https://github.com/agungrbudiman/YTLite/releases/download/v5.2b1/YouTubePlus_5.2b1.ipa"
+		},
+		{
+			"app_name": "Youtube Music",
+			"app_id": "com.google.ios.youtubemusic",
+			"img_url": "/images/ytmusic.webp",
+			"ipa_url": "https://github.com/agungrbudiman/YTMusicUltimate/releases/download/v4/YTMusicUltimate.ipa"
 		},
 		{
 			"app_name": "Spotify",
