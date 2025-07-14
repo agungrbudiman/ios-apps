@@ -1,0 +1,50 @@
+{
+	"apps": [
+		{
+			"app_name": "Feather",
+			"app_id": "thewonderofyou.Feather",
+			"img_url": "/images/feather.png",
+			"ipa_url": "https://github.com/khcrysalis/Feather/releases/download/v2.2.2/Feather.ipa"
+		},
+		{
+			"app_name": "Flappy Bird",
+			"app_id": "org.brandonplank.flappybird",
+			"img_url": "/images/flappybird.png",
+			"ipa_url": "https://github.com/brandonplank/flappybird/releases/download/4.3/org.brandonplank.flappybird.ipa"
+		},
+		{
+			"app_name": "Apollo",
+			"app_id": "com.christianselig.Apollo",
+			"img_url": "/images/apollo.webp",
+			"ipa_url": "https://github.com/Balackburn/Apollo/releases/download/v1.15.11_1.2.3/Apollo-1.15.11_ImprovedCustomApi-1.2.3.ipa"
+		},
+		{
+			"app_name": "Youtube",
+			"app_id": "com.google.ios.youtube",
+			"img_url": "/images/youtube.webp"
+		},
+		{
+			"app_name": "Spotify",
+			"app_id": "com.spotify.clients",
+			"img_url": "/images/spotify.webp",
+			"ipa_url": "https://github.com/whoeevee/EeveeSpotify/releases/download/swift6.0.2/EeveeSpotify-6.0.2-9.0.58.ipa"
+		},
+		{
+			"app_name": "TDS Carplay",
+			"app_id": "net.thomasdye.TDS-Video4",
+			"img_url": "/images/tds_carplay.webp",
+			"ipa_url": "https://github.com/thomasdye12/TDS-Carplay/releases/download/1.2.5/TDS.Video1.5.ipa"
+		}
+	],
+	"devices": [
+		{
+			"id": "401E",
+			"name": "iPhone 13"
+		},
+		{
+			"id": "001C",
+			"name": "iPhone 15"
+		}
+	],
+	"base_signed_url": "https://github.com/agungrbudiman/ios-apps/releases/download/signed"
+}
