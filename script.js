@@ -3,7 +3,8 @@ const devicebox = document.getElementById('devicebox');
 
 let device_id;
 
-devicebox.addEventListener('change', event => device_id = this.value );
+devicebox.addEventListener('change', event => window.location.hash = event.target.selectedIndex );
+appbox.addEventListener('click', cardClick);
 
 main();
 
@@ -12,6 +13,8 @@ async function main() {
   const data = await response.json();
   loadDevice(data);
   loadCards(data);
+  window.location.hash = window.location.hash || 0;
+  devicebox.selectedIndex = window.location.hash.substring(1);
 }
 
 function loadDevice(data) {
@@ -27,8 +30,9 @@ function loadDevice(data) {
 
 function cardClick(event) {
   if (event.target.matches('.install-btn')) {
-    const device_id = document.getElementById('devicebox').value;
-    const manifest_url = `${window.location.origin}/manifest/${device_id}/${this.id}.plist`;
+    const device_id = devicebox.value;
+    const app_id = event.target.parentNode.id;
+    const manifest_url = `${window.location.origin}/manifest/${device_id}/${app_id}.plist`;
     window.location.href = `itms-services://?action=download-manifest&url=${encodeURIComponent(manifest_url)}`;
   }
 }
@@ -39,7 +43,6 @@ function loadCards(data) {
     const card = document.createElement("div");
     card.id = item.app_id;
     card.className = "card";
-    card.addEventListener('click', cardClick);
     card.innerHTML = `
         <img src="${item.img_url}"/>
         <h3>${item.app_name}</h3>
