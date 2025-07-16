@@ -53,9 +53,11 @@ fi
 # Read JSON array length
 apps_count=$(jq '.apps | length' "$data_path")
 
+shopt -s nullglob
 # Loop over each app index
 for (( i=0; i<apps_count; i++ )); do
     app_id=$(jq -r ".apps.[$i].app_id" "$data_path")
+    app_name=$(jq -r ".apps.[$i].app_name" "$data_path")
     ipa_url=$(jq -r ".apps.[$i].ipa_url" "$data_path")
 
     if [ -n "$BUNDLE_ID" ] && [ "$BUNDLE_ID" != "$app_id" ]; then
@@ -68,25 +70,19 @@ for (( i=0; i<apps_count; i++ )); do
             curl -L -o "$work_path/unsigned/$app_id.ipa" "$ipa_url"
         fi
     fi
-done
 
-shopt -s nullglob
-for ipa in $work_path/unsigned/*.ipa; do
-    bid="$(basename "$ipa" .ipa)"
-    if [ -n "$BUNDLE_ID" ] && [ "$BUNDLE_ID" != "$bid" ]; then
-        continue
-    fi
     for cert in $work_path/certs/*; do
         device_id="$(basename $cert)"
         pw="P12_PASSWORD_$device_id"
         if [ -s "$cert/cert.p12" ] && [ -s "$cert/prov.mobileprovision" ]; then
             zsign -k $cert/cert.p12 \
                 -m $cert/prov.mobileprovision \
-                -b $bid \
-                -o "$work_path/signed/"$device_id"_$bid.ipa" \
+                -b "$app_id" \
+                -n "$app_name" \
+                -o "$work_path/signed/"$device_id"_$app_id.ipa" \
                 -p "${!pw}" \
                 -z 6 \
-                $ipa
+                "$work_path/unsigned/$app_id.ipa"
         fi
     done
 done
