@@ -29,6 +29,27 @@ done
 mkdir -p "$work_path/signed"
 mkdir -p "$work_path/unsigned"
 
+# Sign only new entries
+if [ ! -n "$BUNDLE_ID" ] || [ "$SIGN_ALL" = "false" ]; then
+    jq -r '.apps[].app_id' "$data_path" | sort > /tmp/new_ids
+    # data.json from the last 2 commit
+    git show $(git log -2 --format=%H -- data.json | tail -n1):data.json | jq -r '.apps[].app_id' | sort > /tmp/old_ids
+    comm -13 /tmp/old_ids /tmp/new_ids > /tmp/new_only_ids
+
+    if [ ! -s /tmp/new_only_ids ]; then
+      echo "No new app_id entries found."
+      exit 0
+    fi
+
+    jq -R . /tmp/new_only_ids | jq -s . > /tmp/new_only_ids.json
+
+    jq --slurpfile ids /tmp/new_only_ids.json '
+      .apps = (.apps | map(select(.app_id as $id | $ids[0] | index($id))))
+    ' "$data_path" > /tmp/data_new.json
+
+    data_path="/tmp/data_new.json"
+fi
+
 # Read JSON array length
 apps_count=$(jq '.apps | length' "$data_path")
 
@@ -42,14 +63,14 @@ for (( i=0; i<apps_count; i++ )); do
     fi
 
     # Download ipa file
-    if [[ "$ipa_url" != "null" ]]; then
+    if [[ -n "$ipa_url" && "$ipa_url" != "null" ]]; then
         if [[ ! -f "$work_path/unsigned/$app_id.ipa" ]]; then
             curl -L -o "$work_path/unsigned/$app_id.ipa" "$ipa_url"
         fi
     fi
 done
 
-
+shopt -s nullglob
 for ipa in $work_path/unsigned/*.ipa; do
     bid="$(basename "$ipa" .ipa)"
     if [ -n "$BUNDLE_ID" ] && [ "$BUNDLE_ID" != "$bid" ]; then

@@ -37,6 +37,12 @@
 			"ipa_url": "https://github.com/whoeevee/EeveeSpotify/releases/download/swift6.0.2/EeveeSpotify-6.0.2-9.0.58.ipa"
 		},
 		{
+			"app_name": "Spotify Legacy",
+			"app_id": "com.spotify.legacy",
+			"img_url": "/images/spotify.webp",
+			"ipa_url": "https://filebin.net/6u3q999rwdzsl9u9/spotify_legacy_8.6.42.ipa"
+		},
+		{
 			"app_name": "X",
 			"app_id": "com.atebits.Tweetie2",
 			"img_url": "/images/x.webp",

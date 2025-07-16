@@ -4,8 +4,13 @@ on:
   workflow_dispatch:
     inputs:
         bundle_id:
-          description: 'Specific bundle id to be signed (optional)'
+          description: 'Specific bundle id to sign'
           required: false
+        sign_all:
+          description: 'Force sign all IPA'
+          required: false
+          default: 'false'
+          type: boolean
   push:
     paths:
       - data.json
@@ -17,6 +22,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Restore zsign from cache
       id: zsign-cache
@@ -49,6 +56,7 @@ jobs:
       env:
         SECRETS_BASE64: ${{ secrets.SECRETS_BASE64 }}
         BUNDLE_ID: ${{ github.event.inputs.bundle_id }}
+        SIGN_ALL: ${{ github.event.inputs.sign_all }}
 
     - name: Upload to 'signed' release
       uses: softprops/action-gh-release@v2
