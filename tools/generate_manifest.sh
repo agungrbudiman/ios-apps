@@ -2,10 +2,10 @@
 
 # Get the directory of this script
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-data_path="$script_dir/../data.json"
-manifest_dir="$script_dir/../manifest"
+data_path="${script_dir}/../data.json"
+manifest_dir="${script_dir}/../manifest"
 
-app_url_prefix=$(jq -r '.base_signed_url' $data_path)
+app_url_prefix=$(jq -r '.base_signed_url' "$data_path")
 
 devices_count=$(jq '.devices | length' "$data_path")
 
@@ -14,9 +14,7 @@ rm -rf $manifest_dir
 for (( i=0; i<devices_count; i++ )); do
     device_id=$(jq -r ".devices[$i].id" "$data_path")
     enabled=$(jq -r ".devices[$i].enabled" "$data_path")
-    if [ "$enabled" = "true" ]; then
-        mkdir -p "$manifest_dir/$device_id"
-    fi
+    [ "$enabled" = "true" ] && mkdir -p "${manifest_dir}/${device_id}"
 done
 
 apps_count=$(jq '.apps | length' "$data_path")
@@ -30,10 +28,8 @@ for (( i=0; i<apps_count; i++ )); do
   for (( y=0; y<devices_count; y++ )); do
     device_id=$(jq -r ".devices[$y].id" "$data_path")
     enabled=$(jq -r ".devices[$y].enabled" "$data_path")
-    if [ "$enabled" = "false" ]; then
-        continue
-    fi
-    app_url="$app_url_prefix/$device_id"_"$app_id"_"$app_version.ipa"
+    [ "$enabled" = "false" ] && continue
+    app_url="${app_url_prefix}/${device_id}_${app_id}_${app_version}.ipa"
     
     plist_content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
@@ -67,8 +63,8 @@ for (( i=0; i<apps_count; i++ )); do
     </dict>
 </plist>"
 
-    output_file="$manifest_dir/$device_id/${app_id}.plist"
+    output_file="${manifest_dir}/${device_id}/${app_id}.plist"
     printf "%s" "$plist_content" > "$output_file"
-    echo "Generated: $device_id/${app_id}.plist"
+    echo "Generated: ${device_id}/${app_id}.plist"
   done
 done
