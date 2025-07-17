@@ -53,7 +53,7 @@ for app in data['apps']:
         plist_content = template.format(
             app_name=app['app_name'],
             app_id=app['app_id'],
-            app_url=f"{app_url_prefix}/{device['id']}_{app['app_id']}.ipa"
+            app_url=f"{app_url_prefix}/{device['id']}_{app['app_id']}_{app['app_version']}.ipa"
         )
         
         # Save to a file

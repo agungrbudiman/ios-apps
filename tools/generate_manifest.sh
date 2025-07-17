@@ -25,6 +25,7 @@ apps_count=$(jq '.apps | length' "$data_path")
 for (( i=0; i<apps_count; i++ )); do
   app_name=$(jq -r ".apps[$i].app_name" "$data_path")
   app_id=$(jq -r ".apps[$i].app_id" "$data_path")
+  app_version=$(jq -r ".apps[$i].app_version" "$data_path")
 
   for (( y=0; y<devices_count; y++ )); do
     device_id=$(jq -r ".devices[$y].id" "$data_path")
@@ -32,7 +33,7 @@ for (( i=0; i<apps_count; i++ )); do
     if [ "$enabled" = "false" ]; then
         continue
     fi
-    app_url="$app_url_prefix/$device_id"_"$app_id.ipa"
+    app_url="$app_url_prefix/$device_id"_"$app_id"_"$app_version.ipa"
     
     plist_content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">

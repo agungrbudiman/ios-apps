@@ -39,6 +39,7 @@ for (( i=0; i<apps_count; i++ )); do
     app_id=$(jq -r ".apps.[$i].app_id" "$data_path")
     app_name=$(jq -r ".apps.[$i].app_name" "$data_path")
     ipa_url=$(jq -r ".apps.[$i].ipa_url" "$data_path")
+    app_version=$(jq -r ".apps.[$i].app_version" "$data_path")
 
     # skip non matched bundle_id if specified
     if [ -n "$BUNDLE_ID" ] && [ "$BUNDLE_ID" != "$app_id" ]; then
@@ -59,7 +60,7 @@ for (( i=0; i<apps_count; i++ )); do
                 fi
             # check local file when run from local machine
             else
-                if [ -f "$work_path/signed/"$device_id"_$app_id.ipa" ]; then
+                if [ -f "$work_path/signed/$device_id"_"$app_id"_"$app_version.ipa" ]; then
                     echo "$app_name is already signed, skip..."
                     continue
                 fi
@@ -67,8 +68,8 @@ for (( i=0; i<apps_count; i++ )); do
         fi
 
         # Download ipa file
-        if [ ! -f "$work_path/unsigned/$app_id.ipa" ]; then
-            curl -L --silent --fail -o "$work_path/unsigned/$app_id.ipa" "$ipa_url"
+        if [ ! -f "$work_path/unsigned/$app_id"_"$app_version.ipa" ]; then
+            curl -L --silent --fail -o "$work_path/unsigned/$app_id"_"$app_version.ipa" "$ipa_url"
             if [ $? -ne 0 ]; then
                 echo "$app_name failed to download, skip..."
                 continue
@@ -80,10 +81,10 @@ for (( i=0; i<apps_count; i++ )); do
                 -m $cert/prov.mobileprovision \
                 -b "$app_id" \
                 -n "$app_name" \
-                -o "$work_path/signed/"$device_id"_$app_id.ipa" \
+                -o "$work_path/signed/"$device_id"_"$app_id"_""$app_version.ipa" \
                 -p "${!pw}" \
                 -z 6 \
-                "$work_path/unsigned/$app_id.ipa"
+                "$work_path/unsigned/$app_id"_"$app_version.ipa"
         fi
     done
 done
