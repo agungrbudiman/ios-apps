@@ -5,13 +5,14 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 data_path="$script_dir/../data.json"
 work_path="$script_dir/../ipasign"
 
-if [[ ! -z "$GITHUB_ACTIONS" ]]; then
+if [ ! -z "$GITHUB_ACTIONS" ]; then
     echo "$SECRETS_BASE64" > $script_dir/../.secrets
 fi
 
 source .secrets
 
 devices_count=$(jq '.devices | length' "$data_path")
+app_url_prefix=$(jq -r '.base_signed_url' $data_path)
 
 # Prepare workdir
 for (( i=0; i<devices_count; i++ )); do
@@ -29,27 +30,6 @@ done
 mkdir -p "$work_path/signed"
 mkdir -p "$work_path/unsigned"
 
-# Sign only new entries
-if [ ! -n "$BUNDLE_ID" ] || [ "$SIGN_ALL" = "false" ]; then
-    jq -r '.apps[].app_id' "$data_path" | sort > /tmp/new_ids
-    # data.json from the last 2 commit
-    git show $(git log -2 --format=%H -- data.json | tail -n1):data.json | jq -r '.apps[].app_id' | sort > /tmp/old_ids
-    comm -13 /tmp/old_ids /tmp/new_ids > /tmp/new_only_ids
-
-    if [ ! -s /tmp/new_only_ids ]; then
-      echo "No new app_id entries found."
-      exit 0
-    fi
-
-    jq -R . /tmp/new_only_ids | jq -s . > /tmp/new_only_ids.json
-
-    jq --slurpfile ids /tmp/new_only_ids.json '
-      .apps = (.apps | map(select(.app_id as $id | $ids[0] | index($id))))
-    ' "$data_path" > /tmp/data_new.json
-
-    data_path="/tmp/data_new.json"
-fi
-
 # Read JSON array length
 apps_count=$(jq '.apps | length' "$data_path")
 
@@ -60,21 +40,42 @@ for (( i=0; i<apps_count; i++ )); do
     app_name=$(jq -r ".apps.[$i].app_name" "$data_path")
     ipa_url=$(jq -r ".apps.[$i].ipa_url" "$data_path")
 
+    # skip non matched bundle_id if specified
     if [ -n "$BUNDLE_ID" ] && [ "$BUNDLE_ID" != "$app_id" ]; then
         continue
-    fi
-
-    # Download ipa file
-    if [[ -n "$ipa_url" && "$ipa_url" != "null" ]]; then
-        if [[ ! -f "$work_path/unsigned/$app_id.ipa" ]]; then
-            curl -L -o "$work_path/unsigned/$app_id.ipa" "$ipa_url"
-        fi
     fi
 
     for cert in $work_path/certs/*; do
         device_id="$(basename $cert)"
         pw="P12_PASSWORD_$device_id"
-        if [ -s "$cert/cert.p12" ] && [ -s "$cert/prov.mobileprovision" ]; then
+
+        # skip signed apps unless bundle_id specified or sign_all is true
+        if [[ ! -n "$BUNDLE_ID" && ( ! -n "$SIGN_ALL" || "$SIGN_ALL" = "false" ) ]]; then
+            # check uploaded file when run from github action
+            if [ ! -z "$GITHUB_ACTIONS" ]; then
+                if curl --output /dev/null --silent --head --fail "$app_url_prefix/"$device_id"_$app_id.ipa"; then
+                    echo "$app_name is already signed, skip..."
+                    continue
+                fi
+            # check local file when run from local machine
+            else
+                if [ -f "$work_path/signed/"$device_id"_$app_id.ipa" ]; then
+                    echo "$app_name is already signed, skip..."
+                    continue
+                fi
+            fi    
+        fi
+
+        # Download ipa file
+        if [ ! -f "$work_path/unsigned/$app_id.ipa" ]; then
+            curl -L --silent --fail -o "$work_path/unsigned/$app_id.ipa" "$ipa_url"
+            if [ $? -ne 0 ]; then
+                echo "$app_name failed to download, skip..."
+                continue
+            fi
+        fi
+
+        if [ -n "${!pw}" ] && [ -s "$cert/cert.p12" ] && [ -s "$cert/prov.mobileprovision" ]; then
             zsign -k $cert/cert.p12 \
                 -m $cert/prov.mobileprovision \
                 -b "$app_id" \
