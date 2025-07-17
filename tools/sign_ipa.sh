@@ -54,7 +54,7 @@ for (( i=0; i<apps_count; i++ )); do
         if [[ ! -n "$BUNDLE_ID" && ( ! -n "$SIGN_ALL" || "$SIGN_ALL" = "false" ) ]]; then
             # check uploaded file when run from github action
             if [ ! -z "$GITHUB_ACTIONS" ]; then
-                if curl --output /dev/null --silent --head --fail "$app_url_prefix/"$device_id"_$app_id.ipa"; then
+                if curl --output /dev/null --silent --head --fail "$app_url_prefix/"$device_id"_"$app_id"_$app_version.ipa"; then
                     echo "$app_name is already signed, skip..."
                     continue
                 fi
