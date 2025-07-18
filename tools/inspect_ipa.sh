@@ -8,36 +8,46 @@ if [[ ! -f "$IPA_FILE" ]]; then
   exit 1
 fi
 
-# Find the Info.plist inside Payload/*.app/
+# Locate the Info.plist path
 PLIST_PATH=$(unzip -Z1 "$IPA_FILE" | grep -m1 '^Payload/.*\.app/Info.plist$')
-
 if [[ -z "$PLIST_PATH" ]]; then
   echo "Info.plist not found inside IPA!"
   exit 1
 fi
 
-# Extract Info.plist to temp file
+# Extract the Info.plist to a temp file
 TMP_PLIST=$(mktemp)
 unzip -p "$IPA_FILE" "$PLIST_PATH" > "$TMP_PLIST"
 
-if [[ ! -s "$TMP_PLIST" ]]; then
-  echo "Failed to extract Info.plist!"
-  rm -f "$TMP_PLIST"
-  exit 1
+# Detect if it's binary (first 8 bytes are 'bplist')
+if head -c 8 "$TMP_PLIST" | grep -q "bplist"; then
+  echo "Detected binary Info.plist, converting to XML..."
+
+  if command -v plutil &>/dev/null; then
+    # macOS conversion
+    plutil -convert xml1 "$TMP_PLIST"
+  else
+    # Python-based conversion for Linux
+    python3 - <<EOF
+import plistlib, sys
+path = "$TMP_PLIST"
+with open(path, "rb") as f:
+    data = plistlib.load(f)
+with open(path, "wb") as f:
+    plistlib.dump(data, f)
+EOF
+  fi
 fi
 
-# Parse keys
-if command -v /usr/libexec/PlistBuddy &> /dev/null; then
-  BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$TMP_PLIST")
-  BUNDLE_NAME=$(/usr/libexec/PlistBuddy -c "Print :CFBundleName" "$TMP_PLIST")
-  APP_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$TMP_PLIST")
-  BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$TMP_PLIST")
-else
-  BUNDLE_ID=$(plutil -extract CFBundleIdentifier xml1 -o - "$TMP_PLIST" 2>/dev/null | grep -oPm1 "(?<=<string>)[^<]+")
-  BUNDLE_NAME=$(plutil -extract CFBundleName xml1 -o - "$TMP_PLIST" 2>/dev/null | grep -oPm1 "(?<=<string>)[^<]+")
-  APP_VERSION=$(plutil -extract CFBundleShortVersionString xml1 -o - "$TMP_PLIST" 2>/dev/null | grep -oPm1 "(?<=<string>)[^<]+")
-  BUNDLE_VERSION=$(plutil -extract CFBundleVersion xml1 -o - "$TMP_PLIST" 2>/dev/null | grep -oPm1 "(?<=<string>)[^<]+")
-fi
+# Extract key from XML plist using sed
+parse_plist_key() {
+  sed -n "/<key>$1<\/key>/,/<\/string>/s:.*<string>\(.*\)</string>.*:\1:p" "$TMP_PLIST"
+}
+
+BUNDLE_ID=$(parse_plist_key CFBundleIdentifier)
+BUNDLE_NAME=$(parse_plist_key CFBundleName)
+APP_VERSION=$(parse_plist_key CFBundleShortVersionString)
+BUNDLE_VERSION=$(parse_plist_key CFBundleVersion)
 
 echo "Bundle Identifier: $BUNDLE_ID"
 echo "Bundle Name: $BUNDLE_NAME"
