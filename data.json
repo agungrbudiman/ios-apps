@@ -57,6 +57,13 @@
 			"ipa_url": "https://github.com/BandarHL/BHTwitter/releases/download/4.4/BHTwitter-sideloaded.ipa"
 		},
 		{
+			"app_name": "Twitter",
+			"app_id": "com.atebits.Tweetie3",
+			"app_version": "v10.94_1.0r3",
+			"img_url": "/images/twitter.webp",
+			"ipa_url": "https://github.com/actuallyaridan/NeoFreeBird/releases/download/1.0/NeoFreeBird-1.0-Twitter-10.94-rev3.ipa"
+		},
+		{
 			"app_name": "Instagram",
 			"app_id": "com.burbn.instagram",
 			"app_version": "v384.0.0_0.7.1",
