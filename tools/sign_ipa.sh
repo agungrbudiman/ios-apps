@@ -19,11 +19,11 @@ for (( i=0; i<devices_count; i++ )); do
     enabled=$(jq -r ".devices[$i].enabled" "$data_path")
     [ "$enabled" = "false" ] && continue
     device_id=$(jq -r ".devices[$i].id" "$data_path")
-    mkdir -p "${work_path}/certs/${device_id}"
+    mkdir -p "${work_path}/.certs/${device_id}"
     p12="P12_BASE64_${device_id}"
     prov="MOBILEPROVISION_BASE64_${device_id}"
-    echo "${!p12}" | base64 -d > "${work_path}/certs/${device_id}/cert.p12"
-    echo "${!prov}" | base64 -d > "${work_path}/certs/${device_id}/prov.mobileprovision"
+    echo "${!p12}" | base64 -d > "${work_path}/.certs/${device_id}/cert.p12"
+    echo "${!prov}" | base64 -d > "${work_path}/.certs/${device_id}/prov.mobileprovision"
 done
 mkdir -p "${work_path}/signed"
 mkdir -p "${work_path}/unsigned"
@@ -50,12 +50,12 @@ for (( i=0; i<apps_count; i++ )); do
         [ "$enabled" = "false" ] && continue
 
         device_id=$(jq -r ".devices[$k].id" "$data_path")
-        pw="P12_PASSWORD_${device_id}"
-        out_path="${work_path}/signed/${device_id}_${app_id}_${app_version}.ipa"
+        p12_pass="P12_PASSWORD_${device_id}"
+        out_path="${work_path}/signed/${app_id}_${device_id}_${app_version}.ipa"
         dl_path="${work_path}/unsigned/${app_id}_${app_version}.ipa"
-        ul_url="${app_url_prefix}/${device_id}_${app_id}_${app_version}.ipa"
-        p12_path="${work_path}/certs/${device_id}/cert.p12"
-        prov_path="${work_path}/certs/${device_id}/prov.mobileprovision"
+        ul_url="${app_url_prefix}/${app_id}_${device_id}_${app_version}.ipa"
+        p12_path="${work_path}/.certs/${device_id}/cert.p12"
+        prov_path="${work_path}/.certs/${device_id}/prov.mobileprovision"
 
         # skip signed apps unless bundle_id specified or sign_all is true
         if [[ ! -n "$BUNDLE_ID" && ( ! -n "$SIGN_ALL" || "$SIGN_ALL" = "false" ) ]]; then
@@ -84,13 +84,13 @@ for (( i=0; i<apps_count; i++ )); do
         fi
 
         # Sign ipa with zsign
-        if [[ -n "${!pw}" && -s "$p12_path" && -s "$prov_path" ]]; then
+        if [[ -n "${!p12_pass}" && -s "$p12_path" && -s "$prov_path" ]]; then
             zsign -k "$p12_path" \
                 -m "$prov_path" \
                 -b "$app_id" \
                 -n "$app_name" \
                 -o "$out_path" \
-                -p "${!pw}" \
+                -p "${!p12_pass}" \
                 -z 6 \
                 "$dl_path"
         fi

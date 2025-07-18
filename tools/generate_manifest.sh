@@ -29,7 +29,7 @@ for (( i=0; i<apps_count; i++ )); do
     device_id=$(jq -r ".devices[$y].id" "$data_path")
     enabled=$(jq -r ".devices[$y].enabled" "$data_path")
     [ "$enabled" = "false" ] && continue
-    app_url="${app_url_prefix}/${device_id}_${app_id}_${app_version}.ipa"
+    app_url="${app_url_prefix}/${app_id}_${device_id}_${app_version}.ipa"
     
     plist_content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
