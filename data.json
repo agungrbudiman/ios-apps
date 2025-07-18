@@ -22,6 +22,13 @@
 			"ipa_url": "https://github.com/Balackburn/Apollo/releases/download/v1.15.11_1.2.3/Apollo-1.15.11_ImprovedCustomApi-1.2.3.ipa"
 		},
 		{
+			"app_name": "Winston",
+			"app_id": "lo.cafe.winston",
+			"app_version": "v1.1.5",
+			"img_url": "/images/winston.webp",
+			"ipa_url": "https://github.com/lo-cafe/winston/releases/download/v1.1.5/winston.ipa"
+		},
+		{
 			"app_name": "Youtube",
 			"app_id": "com.google.ios.youtube",
 			"app_version": "v20.10.4_5.2b1",
